@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 
 namespace JibbleInterviewTest
 {
-    public class People
+    public interface IPeople { }
+    public class People : IPeople
     {
-        private readonly IPeopleService _peopleService;
-
-        public People()
-        {
-
-        }
+        private readonly IPeopleService _peopleService;       
         public People(IPeopleService peopleService)
         {
             _peopleService = peopleService;
         }
 
-        public async Task<List<PeopleModel>> GetPeople()
+        public async Task<PeopleRowModel> GetPeople(SearchRequest request)
         {
-            return await _peopleService.Get();
+            return await _peopleService.Get(request);
         }
 
-
-        public async Task<PeopleModel> GetPeopleById(string Id)
+        public async Task<PeopleRowModel> GetPeople()
         {
-            return await _peopleService.GetById(Id);
+            return await _peopleService.Get();
+        }       
+
+        public async Task<PeopleModel> GetPeopleById(string id)
+        {
+            return await _peopleService.GetById(id);
         }
 
     }

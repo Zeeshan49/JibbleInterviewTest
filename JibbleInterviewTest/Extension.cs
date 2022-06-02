@@ -1,23 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JibbleInterviewTest
 {
     public static class Extension
-    {
-        public static List<T> Deserialize<T>(this string SerializedJSONString)
-        {
-            var result = JsonConvert.DeserializeObject<List<T>>(SerializedJSONString);
-            return result;
-        }
-
-
-        public static T DeserializeObject<T>(this string SerializedJSONString)
+    {        
+        public static T Deserialize<T>(this string SerializedJSONString)
         {
             var result = JsonConvert.DeserializeObject<T>(SerializedJSONString);
             return result;

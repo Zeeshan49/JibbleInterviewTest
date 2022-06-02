@@ -9,6 +9,7 @@ using JibbleInterviewTest;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((_, services) =>
@@ -30,21 +31,64 @@ using (var scope = host.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        //var peopleService = services.GetRequiredService<IPeopleService>();
-        //People people = new People(peopleService);
-        //var data = await people.GetPeople();
-        //foreach (var item in data)
-        //    Console.WriteLine(item.UserName);
 
-
-
-        //Get By Id
         var peopleService = services.GetRequiredService<IPeopleService>();
-        People people = new People(peopleService);
-        var data = await people.GetPeopleById("Abc");
-        Console.WriteLine($" First Name: {data.FirstName} " +
-            $" Last Name: {data.LastName} " +
-            $" User Name: {data.UserName} ");
+
+
+
+        await Get();
+        await GetFiltered("Scott", "FirstName");
+        await GetById("Scott");
+
+        async Task GetFiltered(string value, string col)
+        {
+            Console.WriteLine($"____________________GetFiltered____________________");
+            //Search
+            var peopleService = services.GetRequiredService<IPeopleService>();
+            People people = new People(peopleService);
+
+            SearchRequest searchRequest = new SearchRequest
+            {
+                Value = value
+            };
+
+            var data = await people.GetPeople(searchRequest);
+            DisplayList(data);
+        }
+
+        async Task Get()
+        {
+            Console.WriteLine($"____________________Get____________________");
+            var peopleService = services.GetRequiredService<IPeopleService>();
+            People people = new People(peopleService);
+            var data = await people.GetPeople();
+            DisplayList(data);
+        }
+
+        async Task GetById(string id)
+        {
+            Console.WriteLine($"____________________GetById____________________");
+            var peopleService = services.GetRequiredService<IPeopleService>();
+            People people = new People(peopleService);
+            var data = await people.GetPeopleById(id);
+            Display(data);
+
+        }
+
+        void Display(PeopleModel model)
+        {
+            Console.WriteLine($" First Name: {model.FirstName} " +
+               $" Last Name: {model.LastName} " +
+               $" User Name: {model.UserName} ");
+        }
+
+        void DisplayList(PeopleRowModel model)
+        {
+            foreach (var item in model.Value)
+                Console.WriteLine($"User Name: {item.UserName} First Name: {item.FirstName} Last Name: {item.LastName}");
+        }
+
+
         Console.ReadLine();
     }
     catch (Exception ex)
