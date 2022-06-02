@@ -1,11 +1,12 @@
 ﻿using JibbleInterviewTest;
+using JibbleInterviewTest.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 
- 
+
 using IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((_, services) =>    
+    .ConfigureServices((_, services) =>
      services.AddTransient<IPeople, People>()
              .AddTransient<IPeopleService, PeopleService>()
              .AddHttpClient<IPeopleService, PeopleService>(c =>
@@ -22,37 +23,37 @@ using (var scope = host.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var people = services.GetRequiredService<IPeople>();
-    
-        await GetFiltered("Scott", "FirstName");
-        await Get();
-        await GetById("russellwhyte");
 
-        async Task GetFiltered(string value, string col)
-        {
+    await GetFiltered("Scott", "FirstName");
+    await Get();
+    await GetById("russellwhyte");
+
+    async Task GetFiltered(string value, string col)
+    {
         Console.WriteLine($"____________________{nameof(GetFiltered)}____________________");
         //Search              
         SearchRequest searchRequest = new SearchRequest
-            {
-                Value = value
-            };
-
-            var data = await people.GetPeople(searchRequest);
-            data.Display();
-        }
-
-        async Task Get()
         {
+            Value = value
+        };
+
+        var data = await people.GetPeople(searchRequest);
+        data.Display();
+    }
+
+    async Task Get()
+    {
         Console.WriteLine($"____________________{nameof(Get)}____________________");
         var data = await people.GetPeople();
-            data.Display();
-        }
+        data.Display();
+    }
 
-        async Task GetById(string id)
-        {
+    async Task GetById(string id)
+    {
         Console.WriteLine($"____________________{nameof(GetById)}____________________");
         var data = await people.GetPeopleById(id);
-            data.Display();
-        }
+        data.Display();
+    }
 
-        Console.ReadLine();   
+    Console.ReadLine();
 }

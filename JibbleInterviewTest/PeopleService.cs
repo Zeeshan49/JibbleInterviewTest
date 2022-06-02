@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using JibbleInterviewTest.Models;
 
 namespace JibbleInterviewTest
 {
@@ -12,7 +12,6 @@ namespace JibbleInterviewTest
     public class PeopleService : IPeopleService
     {
         private readonly HttpClient _httpClient;
-
         public PeopleService(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -28,7 +27,6 @@ namespace JibbleInterviewTest
             }
             string? jsonResult = await response.Content.ReadAsStringAsync();
             return jsonResult.Deserialize<PeopleRowModel>();
-
         }
 
         public async Task<PeopleRowModel> Get()
@@ -56,43 +54,7 @@ namespace JibbleInterviewTest
         }
 
     }
-
-    public class PeopleModel
-    {
-        public string? UserName { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-    }
-
-    public class PeopleRowModel
-    {
-        //[JsonProperty("odata.metadata")]
-        //public string odatametadata { get; set; }
-        [JsonProperty("value")]
-        public List<PeopleModel> Value { get; set; }
-    }
-
-    public class ModelPageLocationList
-    {
-        [JsonProperty("odata.metadata")]
-        public string odatametadata { get; set; }
-        [JsonProperty("value")]
-        public List<PeopleModel> value { get; set; }
-    }
-
-    public class SearchRequest
-    {
-        public string? Col { get; set; }
-        public string? Value { get; set; }
-    }
-
-    public class SearchModel
-    {
-        public string? Value { get; set; }
-    }
 }
-
-
 
 //Excelption issue resolved 
 //https://stackoverflow.com/questions/44219455/cannot-deserialize-the-current-json-array-with-metadata-and-records

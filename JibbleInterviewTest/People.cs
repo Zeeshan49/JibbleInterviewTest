@@ -1,4 +1,6 @@
-﻿namespace JibbleInterviewTest
+﻿using JibbleInterviewTest.Models;
+
+namespace JibbleInterviewTest
 {
     public interface IPeople
     {

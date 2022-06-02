@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using JibbleInterviewTest.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace JibbleInterviewTest
@@ -8,7 +9,9 @@ namespace JibbleInterviewTest
         public static T Deserialize<T>(this string SerializedJSONString)
         {
             if (!IsValidJson(SerializedJSONString))
+            {
                 throw new ArgumentException("Invalid Json");
+            }
 
             return JsonConvert.DeserializeObject<T>(SerializedJSONString);
         }
@@ -53,7 +56,9 @@ namespace JibbleInterviewTest
         public static void Display(this PeopleRowModel model)
         {
             foreach (var item in model.Value)
+            {
                 Console.WriteLine($"User Name: {item.UserName} First Name: {item.FirstName} Last Name: {item.LastName}");
+            }
         }
     }
 }
