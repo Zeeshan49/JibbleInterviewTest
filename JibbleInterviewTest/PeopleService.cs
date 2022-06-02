@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Diagnostics;
 
 namespace JibbleInterviewTest
 {
@@ -12,7 +11,7 @@ namespace JibbleInterviewTest
 
     public class PeopleService : IPeopleService
     {
-        private HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
 
         public PeopleService(HttpClient httpClient)
         {
@@ -21,43 +20,39 @@ namespace JibbleInterviewTest
 
         public async Task<PeopleRowModel> Get(SearchRequest request)
         {
-            var apiurl = $"People?$filter=FirstName eq '{request.Value}'";
-            var response = await _httpClient.GetAsync(apiurl);
-
+            string? apiurl = $"People?$filter=FirstName eq '{request.Value}'";
+            HttpResponseMessage? response = await _httpClient.GetAsync(apiurl);
             if (!response.IsSuccessStatusCode)
+            {
                 throw new Exception($"{response.StatusCode}");
-
-            var jsonResult = await response.Content.ReadAsStringAsync();
+            }
+            string? jsonResult = await response.Content.ReadAsStringAsync();
             return jsonResult.Deserialize<PeopleRowModel>();
 
         }
 
         public async Task<PeopleRowModel> Get()
         {
-            var apiurl = $"people";
-            var response = await _httpClient.GetAsync(apiurl);
+            string? apiurl = $"people";
+            HttpResponseMessage? response = await _httpClient.GetAsync(apiurl);
             if (!response.IsSuccessStatusCode)
+            {
                 throw new Exception($"{response.StatusCode}");
-
-            var jsonResult = await response.Content.ReadAsStringAsync();
+            }
+            string? jsonResult = await response.Content.ReadAsStringAsync();
             return jsonResult.Deserialize<PeopleRowModel>();
         }
 
         public async Task<PeopleModel> GetById(string id)
         {
-            var apiurl = $"People('{id}')";
-            var response = await _httpClient.GetAsync(apiurl);
+            string? apiurl = $"People('{id}')";
+            HttpResponseMessage? response = await _httpClient.GetAsync(apiurl);
             if (!response.IsSuccessStatusCode)
+            {
                 throw new Exception($"{response.StatusCode}");
-
-            var str = await response.Content.ReadAsStringAsync();
-
-            if (str.IsValidJson())
-                return str.Deserialize<PeopleModel>();
-
-            else
-                return null;
-
+            }
+            string? jsonResult = await response.Content.ReadAsStringAsync();
+            return jsonResult.Deserialize<PeopleModel>();
         }
 
     }

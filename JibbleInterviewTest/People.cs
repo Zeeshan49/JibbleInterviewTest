@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JibbleInterviewTest
+﻿namespace JibbleInterviewTest
 {
-    public interface IPeople { }
+    public interface IPeople
+    {
+        Task<PeopleRowModel> GetPeople(SearchRequest request);
+        Task<PeopleRowModel> GetPeople();
+        Task<PeopleModel> GetPeopleById(string id);
+    }
     public class People : IPeople
     {
-        private readonly IPeopleService _peopleService;       
+        private readonly IPeopleService _peopleService;
         public People(IPeopleService peopleService)
         {
             _peopleService = peopleService;
@@ -23,7 +22,7 @@ namespace JibbleInterviewTest
         public async Task<PeopleRowModel> GetPeople()
         {
             return await _peopleService.Get();
-        }       
+        }
 
         public async Task<PeopleModel> GetPeopleById(string id)
         {

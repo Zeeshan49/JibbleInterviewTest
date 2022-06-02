@@ -4,11 +4,13 @@ using Newtonsoft.Json.Linq;
 namespace JibbleInterviewTest
 {
     public static class Extension
-    {        
+    {
         public static T Deserialize<T>(this string SerializedJSONString)
         {
-            var result = JsonConvert.DeserializeObject<T>(SerializedJSONString);
-            return result;
+            if (!IsValidJson(SerializedJSONString))
+                throw new ArgumentException("Invalid Json");
+
+            return JsonConvert.DeserializeObject<T>(SerializedJSONString);
         }
 
         public static bool IsValidJson(this string strInput)
@@ -20,7 +22,7 @@ namespace JibbleInterviewTest
             {
                 try
                 {
-                    var obj = JToken.Parse(strInput);
+                    JToken? obj = JToken.Parse(strInput);
                     return true;
                 }
                 catch (JsonReaderException jex)
@@ -39,6 +41,19 @@ namespace JibbleInterviewTest
             {
                 return false;
             }
+        }
+
+        public static void Display(this PeopleModel model)
+        {
+            Console.WriteLine($" First Name: {model.FirstName} " +
+               $" Last Name: {model.LastName} " +
+               $" User Name: {model.UserName} ");
+        }
+
+        public static void Display(this PeopleRowModel model)
+        {
+            foreach (var item in model.Value)
+                Console.WriteLine($"User Name: {item.UserName} First Name: {item.FirstName} Last Name: {item.LastName}");
         }
     }
 }
