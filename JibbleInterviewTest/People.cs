@@ -28,6 +28,5 @@
         {
             return await _peopleService.GetById(id);
         }
-
     }
 }

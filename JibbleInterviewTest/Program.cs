@@ -2,13 +2,15 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+
+ 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((_, services) =>    
      services.AddTransient<IPeople, People>()
              .AddTransient<IPeopleService, PeopleService>()
              .AddHttpClient<IPeopleService, PeopleService>(c =>
             {
-                c.BaseAddress = new Uri("https://services.odata.org/TripPinRESTierService/");
+                c.BaseAddress = new Uri(Api.ODATA_URL);
             }))
     .Build();
 
