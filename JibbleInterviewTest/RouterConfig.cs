@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace Jibble.App
 {
-    public class RouterConfig
+    public interface IRouterConfig
+    {
+        Task Route(string key);
+    }
+    public class RouterConfig : IRouterConfig
     {
         private readonly IPeople _people;
         public RouterConfig(IPeople people)

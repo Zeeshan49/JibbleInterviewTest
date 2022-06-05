@@ -9,6 +9,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((_, services) =>
      services.AddTransient<IPeople, People>()
              .AddTransient<IPeopleService, PeopleService>()
+             .AddSingleton<IRouterConfig, RouterConfig>()
              .AddHttpClient<IPeopleService, PeopleService>(c =>
             {
                 c.BaseAddress = new Uri(ApiConst.ODATA_URL);
@@ -19,7 +20,7 @@ using (IServiceScope? scope = host.Services.CreateScope())
 {
     IServiceProvider? services = scope.ServiceProvider;
     IPeople? people = services.GetRequiredService<IPeople>();
-
+    IRouterConfig routerConfig = services.GetRequiredService<IRouterConfig>();
     await people.GetPeople();
     var isStop = false;
     do
@@ -28,8 +29,7 @@ using (IServiceScope? scope = host.Services.CreateScope())
         $"\r\n\r\n 1. To Filter/Search People " +
         $"\r\n\r\n 2. Detail of a specific people");
 
-        string? key = Console.ReadLine();
-        RouterConfig routerConfig = new RouterConfig(people);
+        string? key = Console.ReadLine();       
         await routerConfig.Route(key);
 
         Console.WriteLine($"to stop application press (S) or press any other key to continue");
