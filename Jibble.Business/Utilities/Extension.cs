@@ -1,12 +1,14 @@
-﻿using JibbleInterviewTest.Models;
+﻿using Jibble.Business.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
-namespace JibbleInterviewTest
+namespace Jibble.Business.Utilities
 {
     public static class Extension
     {
+        private static readonly Regex sWhitespace = new Regex(@"\s+");
         public static T Deserialize<T>(this string SerializedJSONString)
         {
             if (!IsValidJson(SerializedJSONString))
@@ -59,22 +61,26 @@ namespace JibbleInterviewTest
                $"Gender:{model.Gender} " +
                $"Age:{model.Age}" +
                $"\r\n\r\n" +
-               $"Favorite Feature:{model.FavoriteFeature}");            
-            
+               $"Favorite Feature:{model.FavoriteFeature}");
+
             output.AppendLine($"Emails :");
-            foreach (var item in model.Emails)
+            foreach (string? item in model.Emails)
+            {
                 output.AppendLine(item);
+            }
 
             output.AppendLine($"Features :");
-            foreach (var item in model.Features)
+            foreach (string? item in model.Features)
+            {
                 output.AppendLine(item);
+            }
 
             output.AppendLine($"Address Info:");
 
-            foreach (var item in model.AddressInfo)
+            foreach (AddressModel? item in model.AddressInfo)
             {
                 output.AppendLine($"Address : {item.Address}");
-                output.AppendLine($"City :");               
+                output.AppendLine($"City :");
                 output.AppendLine($" Name: {item.City.Name}" +
                         $" CountryRegion: {item.City.CountryRegion} " +
                         $" Region: {item.City.Region} ");
@@ -84,10 +90,16 @@ namespace JibbleInterviewTest
 
         public static void Display(this PeopleRowModel model)
         {
-            foreach (var item in model.Value)
+            foreach (PeopleModel? item in model.Data)
             {
                 Console.WriteLine($"\r\n\r\n User Name: {item.UserName} First Name: {item.FirstName} Last Name: {item.LastName}");
             }
+        }
+
+      
+        public static string ReplaceWhitespace(this string input, string replacement = "")
+        {
+            return sWhitespace.Replace(input, replacement);
         }
     }
 }

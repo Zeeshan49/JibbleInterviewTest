@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JibbleInterviewTest", "JibbleInterviewTest\JibbleInterviewTest.csproj", "{08B741D5-B4C3-4650-A6F0-D9E6ABEE455C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jibble.App", "JibbleInterviewTest\Jibble.App.csproj", "{08B741D5-B4C3-4650-A6F0-D9E6ABEE455C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jibble.Business", "Jibble.Business\Jibble.Business.csproj", "{6770739B-FE93-4BD4-B8EE-243679328E91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{08B741D5-B4C3-4650-A6F0-D9E6ABEE455C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08B741D5-B4C3-4650-A6F0-D9E6ABEE455C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08B741D5-B4C3-4650-A6F0-D9E6ABEE455C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6770739B-FE93-4BD4-B8EE-243679328E91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6770739B-FE93-4BD4-B8EE-243679328E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6770739B-FE93-4BD4-B8EE-243679328E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6770739B-FE93-4BD4-B8EE-243679328E91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

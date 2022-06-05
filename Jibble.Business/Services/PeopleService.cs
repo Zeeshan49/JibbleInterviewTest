@@ -1,14 +1,8 @@
-﻿using JibbleInterviewTest.Models;
+﻿using Jibble.Business.Models;
+using Jibble.Business.Utilities;
 
-namespace JibbleInterviewTest
+namespace Jibble.Business.Services
 {
-    public interface IPeopleService
-    {
-        Task<PeopleRowModel> Get(SearchRequest request);
-        Task<PeopleRowModel> Get();
-        Task<PeopleModel> GetById(string Id);
-    }
-
     public class PeopleService : IPeopleService
     {
         private readonly HttpClient _httpClient;
@@ -19,7 +13,7 @@ namespace JibbleInterviewTest
 
         public async Task<PeopleRowModel> Get(SearchRequest request)
         {
-            string? apiurl = $"{Api.People}?$filter={request.Col} eq '{request.Value}'";
+            string? apiurl = $"{ApiConst.People}?$filter={request.Col.ReplaceWhitespace()} eq '{request.Value}'";
             HttpResponseMessage? response = await _httpClient.GetAsync(apiurl);
             if (!response.IsSuccessStatusCode)
             {
@@ -30,8 +24,8 @@ namespace JibbleInterviewTest
         }
 
         public async Task<PeopleRowModel> Get()
-        {          
-            HttpResponseMessage? response = await _httpClient.GetAsync($"{Api.People}");
+        {
+            HttpResponseMessage? response = await _httpClient.GetAsync($"{ApiConst.People}");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"{response.StatusCode}");
@@ -41,8 +35,8 @@ namespace JibbleInterviewTest
         }
 
         public async Task<PeopleModel> GetById(string id)
-        {            
-            HttpResponseMessage? response = await _httpClient.GetAsync($"{Api.People}('{id}')");
+        {
+            HttpResponseMessage? response = await _httpClient.GetAsync($"{ApiConst.People}('{id}')");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"{response.StatusCode}");

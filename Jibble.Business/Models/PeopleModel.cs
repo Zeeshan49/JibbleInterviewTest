@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace JibbleInterviewTest.Models
+namespace Jibble.Business.Models
 {
     public class PeopleModel
     {
@@ -14,6 +14,6 @@ namespace JibbleInterviewTest.Models
         public List<string> Emails { get; set; }
         public string? FavoriteFeature { get; set; }
         public List<string> Features { get; set; }
-        public List<AddressModel> AddressInfo { get; set; } 
+        public List<AddressModel> AddressInfo { get; set; }
     }
 }

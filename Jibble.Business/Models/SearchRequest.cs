@@ -1,4 +1,4 @@
-﻿namespace JibbleInterviewTest.Models
+﻿namespace Jibble.Business.Models
 {
     public class SearchRequest
     {

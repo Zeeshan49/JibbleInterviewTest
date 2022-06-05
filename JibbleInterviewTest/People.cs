@@ -1,12 +1,14 @@
-﻿using JibbleInterviewTest.Models;
+﻿using Jibble.Business.Models;
+using Jibble.Business.Services;
+using Jibble.Business.Utilities;
 
-namespace JibbleInterviewTest
+namespace Jibble.App
 {
     public interface IPeople
     {
-        Task<PeopleRowModel> GetPeople(SearchRequest request);
-        Task<PeopleRowModel> GetPeople();
-        Task<PeopleModel> GetPeopleById(string id);
+        Task GetPeople(SearchRequest request);
+        Task GetPeople();
+        Task GetPeopleById(string id);
     }
     public class People : IPeople
     {
@@ -16,19 +18,22 @@ namespace JibbleInterviewTest
             _peopleService = peopleService;
         }
 
-        public async Task<PeopleRowModel> GetPeople(SearchRequest request)
+        public async Task GetPeople(SearchRequest request)
         {
-            return await _peopleService.Get(request);
+            var result = await _peopleService.Get(request);
+            result.Display();
         }
 
-        public async Task<PeopleRowModel> GetPeople()
+        public async Task GetPeople()
         {
-            return await _peopleService.Get();
+            var result = await _peopleService.Get();
+            result.Display();
         }
 
-        public async Task<PeopleModel> GetPeopleById(string id)
+        public async Task GetPeopleById(string id)
         {
-            return await _peopleService.GetById(id);
+            var result = await _peopleService.GetById(id);
+            result.Display();
         }
     }
 }
