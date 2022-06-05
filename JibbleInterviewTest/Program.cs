@@ -3,8 +3,6 @@ using JibbleInterviewTest.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-
-
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((_, services) =>
      services.AddTransient<IPeople, People>()
@@ -15,26 +13,43 @@ using IHost host = Host.CreateDefaultBuilder(args)
             }))
     .Build();
 
-
-
-//required using Microsoft.Extensions.DependencyInjection;
-//required using Microsoft.AspNetCore.Identity;
 using (var scope = host.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var people = services.GetRequiredService<IPeople>();
 
-    await GetFiltered("Scott", "FirstName");
     await Get();
-    await GetById("russellwhyte");
+    Console.WriteLine($"\r\n\r\n Please Choose" +
+    $"\r\n\r\n 1. To Filter/Search People " +
+    $"\r\n\r\n 2. Detail of a specific people");
+
+    var key = Console.ReadLine();
+
+    switch (key)
+    {
+        case "1":
+            Console.WriteLine("Please type column name (without space)");
+            var col = Console.ReadLine();
+            Console.WriteLine("Please type to search");
+            var value = Console.ReadLine();
+            await GetFiltered(value, col);
+            break;
+        case "2":
+            Console.WriteLine($"Enter user name for details");
+            string id = Console.ReadLine();
+            await GetById(id ?? "");
+            break;
+        default:
+            break;
+    }
+
 
     async Task GetFiltered(string value, string col)
     {
-        Console.WriteLine($"____________________{nameof(GetFiltered)}____________________");
-        //Search              
         SearchRequest searchRequest = new SearchRequest
         {
-            Value = value
+            Value = value,
+            Col = col
         };
 
         var data = await people.GetPeople(searchRequest);
@@ -54,6 +69,8 @@ using (var scope = host.Services.CreateScope())
         var data = await people.GetPeopleById(id);
         data.Display();
     }
+
+
 
     Console.ReadLine();
 }

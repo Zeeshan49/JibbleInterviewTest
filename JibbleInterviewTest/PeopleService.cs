@@ -19,7 +19,7 @@ namespace JibbleInterviewTest
 
         public async Task<PeopleRowModel> Get(SearchRequest request)
         {
-            string? apiurl = $"People?$filter=FirstName eq '{request.Value}'";
+            string? apiurl = $"{Api.People}?$filter={request.Col} eq '{request.Value}'";
             HttpResponseMessage? response = await _httpClient.GetAsync(apiurl);
             if (!response.IsSuccessStatusCode)
             {
@@ -30,9 +30,8 @@ namespace JibbleInterviewTest
         }
 
         public async Task<PeopleRowModel> Get()
-        {
-            string? apiurl = $"people";
-            HttpResponseMessage? response = await _httpClient.GetAsync(apiurl);
+        {          
+            HttpResponseMessage? response = await _httpClient.GetAsync($"{Api.People}");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"{response.StatusCode}");
@@ -42,9 +41,8 @@ namespace JibbleInterviewTest
         }
 
         public async Task<PeopleModel> GetById(string id)
-        {
-            string? apiurl = $"People('{id}')";
-            HttpResponseMessage? response = await _httpClient.GetAsync(apiurl);
+        {            
+            HttpResponseMessage? response = await _httpClient.GetAsync($"{Api.People}('{id}')");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"{response.StatusCode}");
@@ -55,6 +53,3 @@ namespace JibbleInterviewTest
 
     }
 }
-
-//Excelption issue resolved 
-//https://stackoverflow.com/questions/44219455/cannot-deserialize-the-current-json-array-with-metadata-and-records
